@@ -1,10 +1,3 @@
-src/
-├── app/                 # Next.js App Router pages
-├── components/          # Reusable React components
-│   └── ui/             # shadcn/ui components
-├── hooks/              # Custom React hooks
-└── lib/                # Utility functions and configurations
-
 # 📘 Planilha Financeira – Scaffold Next.js
 
 Uma base moderna, organizada e profissional para iniciar projetos com Next.js 15, TypeScript, Tailwind CSS 4, Prisma, NextAuth.js e shadcn/ui.
@@ -131,18 +124,6 @@ src/
 - Hooks Essenciais: ReactUse
 
 ---
-
-## 📄 Licença
-
-MIT — Livre para uso, estudo e modificação.
-
----
-
-## 📧 Contato do Autor
-
-**Nome:** Denis Cugler  
-**E-mail:** deniscugler@gmail.com  
-
 **GitHub:** https://github.com/Dcugleer  
 **LinkedIn:** https://www.linkedin.com/in/denis-cugler/  
 **Website / Portfólio:** https://denis-cugler.vercel.app/
