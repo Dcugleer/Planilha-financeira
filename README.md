@@ -124,9 +124,6 @@ src/
 - Hooks Essenciais: ReactUse
 
 ---
-**GitHub:** https://github.com/Dcugleer  
-**LinkedIn:** https://www.linkedin.com/in/denis-cugler/  
-**Website / Portfólio:** https://denis-cugler.vercel.app/
 - **Otimização de Imagens**: Sharp
 - **Tipagem Completa**: TypeScript + Zod
 - **Hooks Essenciais**: ReactUse
@@ -143,7 +140,6 @@ MIT — Livre para uso, estudo e modificação.
 
 **Nome:** Denis Cugler  
 **E-mail:** deniscugler@gmail.com  
-
 **GitHub:** https://github.com/Dcugleer  
 **LinkedIn:** https://www.linkedin.com/in/denis-cugler/  
 **Website / Portfólio:** https://denis-cugler.vercel.app/
