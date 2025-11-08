@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
+import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,24 +15,24 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Z.ai Code Scaffold - AI-Powered Development",
-  description: "Modern Next.js scaffold optimized for AI-powered development with Z.ai. Built with TypeScript, Tailwind CSS, and shadcn/ui.",
-  keywords: ["Z.ai", "Next.js", "TypeScript", "Tailwind CSS", "shadcn/ui", "AI development", "React"],
+  title: "Controle Financeiro - Z.ai Code Scaffold",
+  description: "Sistema moderno de controle financeiro com autenticação segura",
+  keywords: ["controle financeiro", "finanças pessoais", "autenticação", "Next.js", "Supabase"],
   authors: [{ name: "Z.ai Team" }],
   icons: {
     icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
   },
   openGraph: {
-    title: "Z.ai Code Scaffold",
-    description: "AI-powered development with modern React stack",
+    title: "Controle Financeiro",
+    description: "Sistema moderno de controle financeiro com autenticação segura",
     url: "https://chat.z.ai",
     siteName: "Z.ai",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Z.ai Code Scaffold",
-    description: "AI-powered development with modern React stack",
+    title: "Controle Financeiro",
+    description: "Sistema moderno de controle financeiro com autenticação segura",
   },
 };
 
@@ -41,11 +42,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="pt-BR" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
       >
-        {children}
+        <ProtectedRoute>
+          {children}
+        </ProtectedRoute>
         <Toaster />
       </body>
     </html>

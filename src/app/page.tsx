@@ -1,20 +1,8 @@
-'use client'
+'use client';
 
-import { useState, useMemo } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { Input } from '@/components/ui/input'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Badge } from '@/components/ui/badge'
-import { Separator } from '@/components/ui/separator'
-import { Button } from '@/components/ui/button'
-import { Progress } from '@/components/ui/progress'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog'
-import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, PieChart, Pie, Cell, ResponsiveContainer, LineChart, Line } from 'recharts'
+import { AuthHeader } from '@/components/auth/AuthHeader';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import { 
   TrendingUp, 
   TrendingDown, 
@@ -45,7 +33,7 @@ import {
   FileDown,
   Edit,
   CreditCard as CreditCardIcon
-} from 'lucide-react'
+} from 'lucide-react';
 
 interface IncomeSource {
   id: string
@@ -797,9 +785,11 @@ export default function ControleFinanceiro() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 p-4 md:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
+      <AuthHeader />
+      
       {/* Cabeçalho Principal Moderno */}
-      <Card className="mb-8 border-0 shadow-xl bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 text-white">
+      <Card className="mb-8 border-0 shadow-xl bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 text-white mx-4 mt-4">
         <CardHeader className="text-center pb-8">
           <CardTitle className="text-4xl md:text-5xl font-bold tracking-wide">
             Controle Financeiro
@@ -809,7 +799,7 @@ export default function ControleFinanceiro() {
       </Card>
 
       {/* Painel Resumo (Dashboard) */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mb-8 px-4">
         <Card className="border-0 shadow-lg bg-gradient-to-br from-green-400 to-green-500 text-white">
           <CardContent className="p-6 text-center">
             <Wallet className="h-8 w-8 mx-auto mb-2 opacity-80" />
@@ -861,7 +851,7 @@ export default function ControleFinanceiro() {
 
       {/* Alertas Inteligentes */}
       {alerts.length > 0 && (
-        <div className="mb-6 space-y-2">
+        <div className="mb-6 space-y-2 px-4">
           {alerts.map((alert, index) => (
             <Card key={index} className={`border-l-4 ${
               alert.type === 'error' ? 'border-red-500 bg-red-50' : 
@@ -883,7 +873,7 @@ export default function ControleFinanceiro() {
       )}
 
       {/* Barra de Progresso do Orçamento */}
-      <Card className="mb-8 border-0 shadow-lg">
+      <Card className="mb-8 border-0 shadow-lg mx-4">
         <CardContent className="p-6">
           <div className="flex justify-between items-center mb-2">
             <h3 className="text-lg font-semibold">Progresso do Orçamento</h3>
@@ -904,7 +894,7 @@ export default function ControleFinanceiro() {
         </CardContent>
       </Card>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 px-4">
         {/* Fontes de Renda Modernizado */}
         <Card className="border-0 shadow-xl bg-white/80 backdrop-blur">
           <CardHeader className="bg-gradient-to-r from-blue-100 to-blue-200 rounded-t-lg">
@@ -1417,7 +1407,7 @@ export default function ControleFinanceiro() {
       </div>
 
       {/* Barra de Ações */}
-      <Card className="mt-8 border-0 shadow-xl bg-gradient-to-r from-gray-100 to-gray-200">
+      <Card className="mt-8 border-0 shadow-xl bg-gradient-to-r from-gray-100 to-gray-200 mx-4 mb-4">
         <CardContent className="p-6">
           <div className="flex flex-wrap gap-4 justify-center">
             {/* Adicionar Novo Gasto */}
@@ -1477,604 +1467,158 @@ export default function ControleFinanceiro() {
                       Tipo
                     </Label>
                     <Select value={newExpense.type} onValueChange={(value: any) => setNewExpense(prev => ({ ...prev, type: value }))}>
-                      <SelectTrigger className="col-span-3">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="category">Gasto por Categoria</SelectItem>
-                        <SelectItem value="fixed">Gasto Fixo</SelectItem>
-                        <SelectItem value="card">Cartão de Crédito</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  {newExpense.type === 'card' && (
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <Label htmlFor="card" className="text-right">
-                        Cartão
-                      </Label>
-                      <Select value={newExpense.cardId} onValueChange={(value) => setNewExpense(prev => ({ ...prev, cardId: value }))}>
-                        <SelectTrigger className="col-span-3">
-                          <SelectValue placeholder="Selecione um cartão" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {creditCards.filter(card => card.isActive).map((card) => (
-                            <SelectItem key={card.id} value={card.id}>
-                              {card.icon} {card.name}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  )}
-                </div>
-                <div className="flex justify-end gap-2">
-                  <Button variant="outline" onClick={() => setShowAddExpenseDialog(false)}>
-                    Cancelar
-                  </Button>
-                  <Button onClick={addNewExpense}>
-                    Adicionar Gasto
-                  </Button>
-                </div>
-              </DialogContent>
-            </Dialog>
+                      <SelectTrigger className
+<dyad-write path="src/app/auth/login/page.tsx" description="Creating a login page.">
+'use client';
 
-            {/* Histórico */}
-            <Dialog open={showHistoryDialog} onOpenChange={setShowHistoryDialog}>
-              <DialogTrigger asChild>
-                <Button variant="outline">
-                  <History className="h-4 w-4 mr-2" />
-                  Histórico ({closedMonths.length})
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[900px] max-h-[90vh] overflow-y-auto">
-                <DialogHeader>
-                  <DialogTitle className="flex items-center gap-2">
-                    <History className="h-5 w-5" />
-                    Histórico Financeiro
-                  </DialogTitle>
-                </DialogHeader>
-                
-                <Tabs defaultValue="list" className="w-full">
-                  <TabsList className="grid w-full grid-cols-3">
-                    <TabsTrigger value="list">Lista de Meses</TabsTrigger>
-                    <TabsTrigger value="charts">Análise Gráfica</TabsTrigger>
-                    <TabsTrigger value="details">Detalhes</TabsTrigger>
-                  </TabsList>
-                  
-                  <TabsContent value="list" className="space-y-4">
-                    {/* Filtros */}
-                    <div className="flex gap-4 items-center">
-                      <div className="flex-1">
-                        <div className="relative">
-                          <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
-                          <Input
-                            placeholder="Buscar meses ou notas..."
-                            value={historySearch}
-                            onChange={(e) => setHistorySearch(e.target.value)}
-                            className="pl-8"
-                          />
-                        </div>
-                      </div>
-                      <Select value={historyFilter} onValueChange={setHistoryFilter}>
-                        <SelectTrigger className="w-48">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="all">Todos os meses</SelectItem>
-                          <SelectItem value="positive">Saldo positivo</SelectItem>
-                          <SelectItem value="negative">Saldo negativo</SelectItem>
-                          <SelectItem value="high">Alto consumo</SelectItem>
-                          <SelectItem value="low">Baixo consumo</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <Button onClick={generateHistoryReport} variant="outline">
-                        <FileDown className="h-4 w-4 mr-2" />
-                        Exportar Tudo
-                      </Button>
-                    </div>
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/components/auth/AuthProvider';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Loader2, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 
-                    {/* Lista de meses */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {filteredHistory.map((month) => (
-                        <Card key={month.id} className="border border-gray-200 hover:shadow-lg transition-shadow">
-                          <CardContent className="p-4">
-                            <div className="flex justify-between items-start mb-3">
-                              <h4 className="font-semibold">{month.month}</h4>
-                              <div className="flex gap-1">
-                                <Button
-                                  size="sm"
-                                  variant="outline"
-                                  onClick={() => setSelectedHistoryMonth(month)}
-                                >
-                                  <Eye className="h-3 w-3" />
-                                </Button>
-                                <Button
-                                  size="sm"
-                                  variant="outline"
-                                  onClick={() => deleteHistoryMonth(month.id)}
-                                  className="text-red-600 hover:text-red-700"
-                                >
-                                  <Trash2 className="h-3 w-3" />
-                                </Button>
-                              </div>
-                            </div>
-                            <div className="space-y-1 text-sm">
-                              <div className="flex justify-between">
-                                <span>Renda:</span>
-                                <span className="font-medium">{formatCurrency(month.income)}</span>
-                              </div>
-                              <div className="flex justify-between">
-                                <span>Gastos:</span>
-                                <span className="font-medium">{formatCurrency(month.expenses)}</span>
-                              </div>
-                              <div className="flex justify-between font-bold pt-1 border-t">
-                                <span>Saldo:</span>
-                                <span className={month.remaining >= 0 ? 'text-green-600' : 'text-red-600'}>
-                                  {formatCurrency(month.remaining)}
-                                </span>
-                              </div>
-                              {month.notes && (
-                                <div className="mt-2 p-2 bg-gray-50 rounded text-xs text-gray-600">
-                                  {month.notes}
-                                </div>
-                              )}
-                            </div>
-                          </CardContent>
-                        </Card>
-                      ))}
-                    </div>
-                  </TabsContent>
-                  
-                  <TabsContent value="charts" className="space-y-6">
-                    {/* Gráfico de linha - Evolução mensal */}
-                    <Card>
-                      <CardHeader>
-                        <CardTitle className="flex items-center gap-2">
-                          <TrendingUp className="h-5 w-5" />
-                          Evolução Financeira Mensal
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <ResponsiveContainer width="100%" height={300}>
-                          <LineChart data={historyChartData}>
-                            <CartesianGrid strokeDasharray="3 3" />
-                            <XAxis dataKey="month" />
-                            <YAxis />
-                            <Tooltip formatter={(value) => formatCurrency(Number(value))} />
-                            <Legend />
-                            <Line type="monotone" dataKey="renda" stroke="#10B981" strokeWidth={2} />
-                            <Line type="monotone" dataKey="gastos" stroke="#EF4444" strokeWidth={2} />
-                            <Line type="monotone" dataKey="saldo" stroke="#3B82F6" strokeWidth={2} />
-                          </LineChart>
-                        </ResponsiveContainer>
-                      </CardContent>
-                    </Card>
+export default function LoginPage() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [isSignUp, setIsSignUp] = useState(false);
+  
+  const { signIn, signUp } = useAuth();
+  const router = useRouter();
 
-                    {/* Gráfico de pizza - Distribuição total */}
-                    <Card>
-                      <CardHeader>
-                        <CardTitle className="flex items-center gap-2">
-                          <PieChartIcon className="h-5 w-5" />
-                          Distribuição Total de Gastos (Todos os Meses)
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <ResponsiveContainer width="100%" height={300}>
-                          <PieChart>
-                            <Pie
-                              data={historyPieData}
-                              cx="50%"
-                              cy="50%"
-                              outerRadius={100}
-                              dataKey="value"
-                              label={({ name, percentage }) => `${name} ${percentage}%`}
-                            >
-                              {historyPieData.map((entry, index) => (
-                                <Cell key={`cell-${index}`} fill={`hsl(${index * 30}, 70%, 60%)`} />
-                              ))}
-                            </Pie>
-                            <Tooltip formatter={(value) => formatCurrency(Number(value))} />
-                          </PieChart>
-                        </ResponsiveContainer>
-                      </CardContent>
-                    </Card>
-                  </TabsContent>
-                  
-                  <TabsContent value="details" className="space-y-4">
-                    {selectedHistoryMonth ? (
-                      <div className="space-y-4">
-                        {/* Cabeçalho do mês selecionado */}
-                        <Card>
-                          <CardHeader>
-                            <CardTitle className="flex justify-between items-center">
-                              <span>{selectedHistoryMonth.month}</span>
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={() => setSelectedHistoryMonth(null)}
-                              >
-                                <X className="h-4 w-4" />
-                              </Button>
-                            </CardTitle>
-                          </CardHeader>
-                          <CardContent>
-                            <div className="grid grid-cols-3 gap-4">
-                              <div className="text-center">
-                                <p className="text-sm text-gray-600">Renda</p>
-                                <p className="text-xl font-bold text-green-600">{formatCurrency(selectedHistoryMonth.income)}</p>
-                              </div>
-                              <div className="text-center">
-                                <p className="text-sm text-gray-600">Gastos</p>
-                                <p className="text-xl font-bold text-red-600">{formatCurrency(selectedHistoryMonth.expenses)}</p>
-                              </div>
-                              <div className="text-center">
-                                <p className="text-sm text-gray-600">Saldo</p>
-                                <p className={`text-xl font-bold ${selectedHistoryMonth.remaining >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                                  {formatCurrency(selectedHistoryMonth.remaining)}
-                                </p>
-                              </div>
-                            </div>
-                            {selectedHistoryMonth.notes && (
-                              <div className="mt-4 p-3 bg-gray-50 rounded">
-                                <p className="text-sm font-medium">Notas:</p>
-                                <p className="text-sm text-gray-600">{selectedHistoryMonth.notes}</p>
-                              </div>
-                            )}
-                          </CardContent>
-                        </Card>
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
 
-                        {/* Categorias */}
-                        <Card>
-                          <CardHeader>
-                            <CardTitle>Categorias</CardTitle>
-                          </CardHeader>
-                          <CardContent>
-                            <Table>
-                              <TableHeader>
-                                <TableRow>
-                                  <TableHead>Categoria</TableHead>
-                                  <TableHead className="text-right">Estimado</TableHead>
-                                  <TableHead className="text-right">Gasto</TableHead>
-                                  <TableHead className="text-right">Diferença</TableHead>
-                                </TableRow>
-                              </TableHeader>
-                              <TableBody>
-                                {selectedHistoryMonth.categories.map((cat) => (
-                                  <TableRow key={cat.id}>
-                                    <TableCell>{cat.category}</TableCell>
-                                    <TableCell className="text-right">{formatCurrency(cat.estimated)}</TableCell>
-                                    <TableCell className="text-right">{formatCurrency(cat.spent)}</TableCell>
-                                    <TableCell className={`text-right font-medium ${cat.spent > cat.estimated ? 'text-red-600' : 'text-green-600'}`}>
-                                      {formatCurrency(cat.spent - cat.estimated)}
-                                    </TableCell>
-                                  </TableRow>
-                                ))}
-                              </TableBody>
-                            </Table>
-                          </CardContent>
-                        </Card>
+    try {
+      if (isSignUp) {
+        await signUp(email, password);
+        // Auto-sign in after successful registration
+        await signIn(email, password);
+      } else {
+        await signIn(email, password);
+      }
+      router.push('/');
+    } catch (err: any) {
+      setError(err.message || 'Ocorreu um erro. Tente novamente.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-                        {/* Fontes de Renda */}
-                        <Card>
-                          <CardHeader>
-                            <CardTitle>Fontes de Renda</CardTitle>
-                          </CardHeader>
-                          <CardContent>
-                            <Table>
-                              <TableHeader>
-                                <TableRow>
-                                  <TableHead>Descrição</TableHead>
-                                  <TableHead className="text-right">Valor</TableHead>
-                                </TableRow>
-                              </TableHeader>
-                              <TableBody>
-                                {selectedHistoryMonth.incomeSources.map((source) => (
-                                  <TableRow key={source.id}>
-                                    <TableCell>{source.description}</TableCell>
-                                    <TableCell className="text-right font-medium">{formatCurrency(source.value)}</TableCell>
-                                  </TableRow>
-                                ))}
-                              </TableBody>
-                            </Table>
-                          </CardContent>
-                        </Card>
-                      </div>
-                    ) : (
-                      <div className="text-center py-8 text-gray-500">
-                        <History className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                        <p>Selecione um mês na aba "Lista de Meses" para ver os detalhes</p>
-                      </div>
-                    )}
-                  </TabsContent>
-                </Tabs>
-              </DialogContent>
-            </Dialog>
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 p-4">
+      <Card className="w-full max-w-md border-0 shadow-xl">
+        <CardHeader className="text-center">
+          <CardTitle className="text-2xl font-bold text-gray-900">
+            {isSignUp ? 'Criar Conta' : 'Bem-vindo de Volta'}
+          </CardTitle>
+          <CardDescription className="text-gray-600">
+            {isSignUp 
+              ? 'Crie sua conta para começar a controlar suas finanças' 
+              : 'Entre na sua conta para acessar seu painel financeiro'
+            }
+          </CardDescription>
+        </CardHeader>
+        
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="email" className="text-sm font-medium text-gray-700">
+                Email
+              </Label>
+              <div className="relative">
+                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <Input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="seu@email.com"
+                  className="pl-10"
+                  required
+                />
+              </div>
+            </div>
 
-            {/* Fechar Mês */}
-            <AlertDialog open={showCloseMonthDialog} onOpenChange={setShowCloseMonthDialog}>
-              <AlertDialogTrigger asChild>
-                <Button className="bg-green-500 hover:bg-green-600 text-white">
-                  <CheckCircle className="h-4 w-4 mr-2" />
-                  Fechar Mês
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent className="sm:max-w-[500px]">
-                <AlertDialogHeader>
-                  <AlertDialogTitle>Confirmar Fechamento do Mês</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    Tem certeza que deseja fechar o mês <strong>{currentMonth}</strong>? 
-                    Esta ação irá:
-                    <ul className="mt-2 list-disc list-inside text-sm">
-                      <li>Salvar todos os dados atuais no histórico</li>
-                      <li>Resetar os gastos para R$ 0,00</li>
-                      <li>Limpar despesas e cartões</li>
-                      <li>Avançar para o próximo mês</li>
-                    </ul>
-                    <div className="mt-4 p-3 bg-blue-50 rounded-lg">
-                      <p className="text-sm"><strong>Resumo do mês:</strong></p>
-                      <p className="text-sm">Renda: {formatCurrency(totalIncome)}</p>
-                      <p className="text-sm">Gastos: {formatCurrency(totalSpent)}</p>
-                      <p className="text-sm">Saldo: {formatCurrency(remaining)}</p>
-                    </div>
-                    <div className="mt-4">
-                      <Label htmlFor="notes">Notas do mês (opcional)</Label>
-                      <Textarea
-                        id="notes"
-                        value={closeMonthNotes}
-                        onChange={(e) => setCloseMonthNotes(e.target.value)}
-                        placeholder="Adicione observações sobre este mês..."
-                        className="mt-2"
-                      />
-                    </div>
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                  <AlertDialogAction onClick={handleCloseMonth} className="bg-green-500 hover:bg-green-600">
-                    Confirmar Fechamento
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
+            <div className="space-y-2">
+              <Label htmlFor="password" className="text-sm font-medium text-gray-700">
+                Senha
+              </Label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                <Input
+                  id="password"
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  className="pl-10 pr-10"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                >
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
+            </div>
 
-            {/* Gerar Relatório */}
-            <Dialog open={showReportDialog} onOpenChange={setShowReportDialog}>
-              <DialogTrigger asChild>
-                <Button className="bg-purple-500 hover:bg-purple-600 text-white">
-                  <FileText className="h-4 w-4 mr-2" />
-                  Gerar Relatório
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[600px] max-h-[80vh] overflow-y-auto">
-                <DialogHeader>
-                  <DialogTitle>Relatório Financeiro - {currentMonth}</DialogTitle>
-                </DialogHeader>
-                <div className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <Card>
-                      <CardContent className="p-4">
-                        <h4 className="font-semibold text-green-600">Renda Total</h4>
-                        <p className="text-2xl font-bold">{formatCurrency(totalIncome)}</p>
-                      </CardContent>
-                    </Card>
-                    <Card>
-                      <CardContent className="p-4">
-                        <h4 className="font-semibold text-red-600">Gastos Totais</h4>
-                        <p className="text-2xl font-bold">{formatCurrency(totalSpent)}</p>
-                      </CardContent>
-                    </Card>
-                  </div>
-                  
-                  <Card>
-                    <CardContent className="p-4">
-                      <h4 className="font-semibold mb-3">Resumo por Categoria</h4>
-                      <div className="space-y-2">
-                        {expenseCategories.filter(cat => cat.spent > 0).map((cat) => (
-                          <div key={cat.id} className="flex justify-between items-center">
-                            <span className="text-sm">{cat.category}</span>
-                            <div className="text-right">
-                              <span className="font-medium">{formatCurrency(cat.spent)}</span>
-                              <span className="text-xs text-gray-500 ml-2">
-                                ({((cat.spent / totalSpent) * 100).toFixed(1)}%)
-                              </span>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
+            {error && (
+              <Alert variant="destructive">
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
 
-                  <Card>
-                    <CardContent className="p-4">
-                      <h4 className="font-semibold mb-3">Resumo dos Cartões</h4>
-                      <div className="space-y-2">
-                        {creditCards.filter(card => card.isActive).map((card) => {
-                          const cardTotal = card.expenses.reduce((sum, exp) => sum + exp.value, 0)
-                          return (
-                            <div key={card.id} className="flex justify-between">
-                              <span>{card.icon} {card.name}</span>
-                              <span className="font-medium">{formatCurrency(cardTotal)}</span>
-                            </div>
-                          )
-                        })}
-                        <div className="flex justify-between font-bold pt-2 border-t">
-                          <span>Total Cartões:</span>
-                          <span>{formatCurrency(totalCards)}</span>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  {isSignUp ? 'Criando...' : 'Entrando...'}
+                </>
+              ) : (
+                isSignUp ? 'Criar Conta' : 'Entrar'
+              )}
+            </Button>
+          </form>
 
-                  <div className="flex justify-between items-center pt-4">
-                    <p className="text-sm text-gray-600">
-                      Gerado em {new Date().toLocaleDateString('pt-BR')}
-                    </p>
-                    <Button onClick={generateReport} className="bg-blue-500 hover:bg-blue-600">
-                      <Download className="h-4 w-4 mr-2" />
-                      Baixar JSON
-                    </Button>
-                  </div>
-                </div>
-              </DialogContent>
-            </Dialog>
+          <div className="mt-6">
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300" />
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="bg-white px-2 text-gray-500">ou</span>
+              </div>
+            </div>
 
-            {/* Configurações */}
-            <Dialog open={showSettingsDialog} onOpenChange={setShowSettingsDialog}>
-              <DialogTrigger asChild>
-                <Button variant="outline">
-                  <Settings className="h-4 w-4 mr-2" />
-                  Configurações
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                  <DialogTitle>Configurações</DialogTitle>
-                </DialogHeader>
-                <div className="grid gap-4 py-4">
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="currency" className="text-right">
-                      Moeda
-                    </Label>
-                    <Select value={settings.currency} onValueChange={(value) => setSettings(prev => ({ ...prev, currency: value }))}>
-                      <SelectTrigger className="col-span-3">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="BRL">Real (R$)</SelectItem>
-                        <SelectItem value="USD">Dólar ($)</SelectItem>
-                        <SelectItem value="EUR">Euro (€)</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="threshold" className="text-right">
-                      Alerta (%)
-                    </Label>
-                    <Input
-                      id="threshold"
-                      type="number"
-                      value={settings.alertThreshold}
-                      onChange={(e) => setSettings(prev => ({ ...prev, alertThreshold: parseInt(e.target.value) || 80 }))}
-                      className="col-span-3"
-                      min="50"
-                      max="100"
-                    />
-                  </div>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="monthStart" className="text-right">
-                      Dia do Mês
-                    </Label>
-                    <Input
-                      id="monthStart"
-                      type="number"
-                      value={settings.monthStartDay}
-                      onChange={(e) => setSettings(prev => ({ ...prev, monthStartDay: parseInt(e.target.value) || 1 }))}
-                      className="col-span-3"
-                      min="1"
-                      max="31"
-                    />
-                  </div>
-                </div>
-                <div className="flex justify-end">
-                  <Button onClick={() => setShowSettingsDialog(false)}>
-                    Salvar Configurações
-                  </Button>
-                </div>
-              </DialogContent>
-            </Dialog>
+            <div className="mt-4 text-center">
+              <button
+                onClick={() => setIsSignUp(!isSignUp)}
+                className="text-sm text-blue-600 hover:text-blue-500 font-medium"
+              >
+                {isSignUp 
+                  ? 'Já tem uma conta? Entre aqui' 
+                  : 'Não tem uma conta? Cadastre-se'
+                }
+              </button>
+            </div>
           </div>
         </CardContent>
       </Card>
-
-      {/* Dialog para Adicionar Cartão */}
-      <Dialog open={showAddCardDialog} onOpenChange={setShowAddCardDialog}>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Adicionar Novo Cartão</DialogTitle>
-          </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="cardName" className="text-right">
-                Nome
-              </Label>
-              <Input
-                id="cardName"
-                value={newCard.name}
-                onChange={(e) => setNewCard(prev => ({ ...prev, name: e.target.value }))}
-                className="col-span-3"
-                placeholder="Ex: Visa Platinum"
-              />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="cardBank" className="text-right">
-                Banco
-              </Label>
-              <Input
-                id="cardBank"
-                value={newCard.bank}
-                onChange={(e) => setNewCard(prev => ({ ...prev, bank: e.target.value }))}
-                className="col-span-3"
-                placeholder="Ex: Itaú"
-              />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="cardColor" className="text-right">
-                Cor
-              </Label>
-              <Select value={newCard.color} onValueChange={(value) => setNewCard(prev => ({ ...prev, color: value }))}>
-                <SelectTrigger className="col-span-3">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {CARD_COLORS.map((color) => (
-                    <SelectItem key={color.value} value={color.value}>
-                      <div className="flex items-center gap-2">
-                        <div 
-                          className="w-4 h-4 rounded" 
-                          style={{ backgroundColor: color.value }}
-                        />
-                        {color.name}
-                      </div>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="cardIcon" className="text-right">
-                Ícone
-              </Label>
-              <Select value={newCard.icon} onValueChange={(value) => setNewCard(prev => ({ ...prev, icon: value }))}>
-                <SelectTrigger className="col-span-3">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="💳">💳 Cartão</SelectItem>
-                  <SelectItem value="🏦">🏦 Banco</SelectItem>
-                  <SelectItem value="💰">💰 Dinheiro</SelectItem>
-                  <SelectItem value="💎">💎 Premium</SelectItem>
-                  <SelectItem value="🌟">🌟 Especial</SelectItem>
-                  <SelectItem value="🔵">🔵 Azul</SelectItem>
-                  <SelectItem value="🟢">🟢 Verde</SelectItem>
-                  <SelectItem value="🔴">🔴 Vermelho</SelectItem>
-                  <SelectItem value="🟡">🟡 Amarelo</SelectItem>
-                  <SelectItem value="🟣">🟣 Roxo</SelectItem>
-                  <SelectItem value="🟠">🟠 Laranja</SelectItem>
-                  <SelectItem value="⚫">⚫ Preto</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-          <div className="flex justify-end gap-2">
-            <Button variant="outline" onClick={() => setShowAddCardDialog(false)}>
-              Cancelar
-            </Button>
-            <Button onClick={addNewCard}>
-              Adicionar Cartão
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
     </div>
-  )
+  );
 }
